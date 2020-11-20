@@ -7,11 +7,16 @@ const DataRouter = Express.Router();
 // imports
 const DataDbo = require("../dbo/DataDbo");
 
+//Testing
+DataRouter.get("/test", (req, res) => {
+    res.send("ping pong from server");
+});
+
 //Post Method
 DataRouter.post("/createData", async (req, res) => {
     try {
         const result = await DataDbo.createData({ ...req.body });
-        console.log(result)
+        console.log(result);
         res.status(200).send(result);
     } catch (err) {
         res.send(err);
@@ -19,7 +24,7 @@ DataRouter.post("/createData", async (req, res) => {
 });
 
 //Get Method
-DataRouter.get("/getData/:id", async (req, res) => {
+DataRouter.get('/getData/:id', async (req, res) => {
     let id = req.params.id;
     try {
         const result= await DataDbo.getData({ id });
