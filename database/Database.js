@@ -1,12 +1,12 @@
 //Import Package
 const Mongoose = require("mongoose");
 const Env = require("dotenv").config({ path: require("find-config")(".env") });
-
+const DB_HOST=Env.parsed.DB_HOST;
 //Database Connection
 exports.InitilizeDatabase = async () => {
     try {
         await Mongoose.connect(
-            Env.parsed.DB_HOST,
+            DB_HOST,
             {
                 useUnifiedTopology: true,
                 useNewUrlParser: true,
@@ -17,14 +17,14 @@ exports.InitilizeDatabase = async () => {
         );
         console.log(
             new Date().toString() +
-                Env.parsed.DB_HOST.slice(30).padStart(93, "*") +
+                DB_HOST.slice(30).padStart(93, "*") +
                 " Database connected"
         );
     } catch (error) {
         console.log(
             new Date().toString() +
                 " Unable to Connect " +
-                Env.parsed.DB_HOST.slice(30).padStart(93, "*")
+                DB_HOST.slice(30).padStart(93, "*")
         );
         console.log(error);
         throw error;
