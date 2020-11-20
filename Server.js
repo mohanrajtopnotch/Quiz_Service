@@ -1,14 +1,15 @@
 // packages
-const Express = require('express');
+const Express = require("express");
 const Env = require("dotenv").config({ path: require("find-config")(".env") });
 
 // Imports
 const Server = Express();
-const RouterMux = require('./RouterMux.js');
-const Database = require('./database/Database');
-const cors=require('cors');
-const PORT=Env.parsed.PORT || 7000;
-const CONTEXT_PATH=Env.parsed.CONTEXT_PATH;
+const CONTEXT_PATH = process.env.CONTEXT_PATH;
+const PORT = process.env.PORT || 3000;
+const RouterMux = require("./RouterMux.js");
+const Database = require("./database/Database");
+const cors = require("cors");
+
 // App Service Start Indication
 console.log(new Date().toString() + " App service started");
 
@@ -19,8 +20,7 @@ Database.InitilizeDatabase();
 Server.use(Express.json());
 Server.use(Express.urlencoded({ extended: true }));
 Server.use(
-	cors({
-        //App Front CORS 
+    cors({
         origin: "http://localhost:3000",
         credentials: true,
     })
@@ -30,7 +30,11 @@ Server.use(
 Server.use(CONTEXT_PATH, RouterMux);
 
 // Server is listening to port
-Server.listen(process.env.PORT, () => {
-	console.log(new Date().toString() + ' Server is listening to port ' + process.env.PORT);
+Server.listen(PORT, () => {
+    console.log(
+        new Date().toString() +
+            " Server is listening to port " +
+            Env.parsed.PORT
+    );
 });
 module.exports = { Server };
